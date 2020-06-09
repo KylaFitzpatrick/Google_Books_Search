@@ -18,30 +18,39 @@ class Search extends Component {
 
         let API_URL = `https://www.googleapis.com/books/v1/volumes`;
 
-        const fetchBooks = async () => {
-            // Ajax call to API using Axios
-            const result = await axios.get(`${API_URL}?q=${this.state.query}`);
+
+        // const fetchBooks = async () => {
+        // Ajax call to API using Axios
+        axios.get(`${API_URL}?q=${this.state.query}`)
             // Books result
-            console.log(result.data);
-            this.setState({ books: result.data.items });
+            // console.log(result.data);
+            .then(res => {
+                //console.log(res);
+                this.displayRes(res.data);
+            })
+            .catch(err => console.log(err));
+    };
 
-        }
-
-        // Submit handler
-        const onSubmitHandler = (e) => {
-            // Prevent browser refreshing after form submission
-            e.preventDefault();
-            // Call fetch books async function
-            fetchBooks();
-        }
+    displayRes = data => {
+        this.setState({ books: data.items });
     }
+
+
+
+    // Submit handler
+    // const onSubmitHandler = (e) => {
+    //     // Prevent browser refreshing after form submission
+    //     e.preventDefault();
+    //     // Call fetch books async function
+    //     fetchBooks();
+    // }
+    // }
 
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
             [name]: value
         });
-        console.log("Query", this.state.query);
     };
 
 
@@ -55,20 +64,11 @@ class Search extends Component {
                                 <h1>Google Books Search</h1>
                                 <h1>Search for and save your favorite books</h1>
                             </Jumbotron>
-                            <form>
-                                <Input
-                                    value={this.state.title}
-                                    onChange={this.handleInputChange}
-                                    name="title"
-                                    placeholder="Title (required)"
-                                />
-                                <FormBtn
-                                    disabled={!(this.state.title)}
-                                    onClick={this.bookSearch}
-                                >
-                                    Search
-              </FormBtn>
-                            </form>
+                            <input id="bookQ" className="form-control form-control-lg" autoComplete="off" type="text" name="query" onChange={this.handleInputChange} />
+                            <button class="btn" type="submit" onClick={this.bookSearch} >
+                                Search for Books
+          </button>
+
 
 
 
