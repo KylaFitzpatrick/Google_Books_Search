@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import axios from "axios";
+import SaveBtn from "../components/SaveBtn";
 import DeleteBtn from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import { BookList, ListItem } from "../components/BookList";
 import { Input, TextArea, FormBtn } from "../components/Form";
+
 
 class Search extends Component {
     state = {
@@ -69,9 +71,6 @@ class Search extends Component {
                                 Search for Books
           </button>
 
-
-
-
                             {(this.state.books && this.state.books.length > 0) ?
                                 <BookList>
                                     {this.state.books.map(book => {
@@ -80,11 +79,20 @@ class Search extends Component {
                                                 <ListItem
                                                     key={book.id}
                                                     title={book.volumeInfo.title}
-                                                    author={book.volumeInfo.author}
+                                                    authors={book.volumeInfo.authors }
                                                     description={book.volumeInfo.description}
-                                                    image={book.volumeInfo.thumbnail}
-                                                    link={book.volumeInfo.Link}
+                                                    image={book.volumeInfo.imageLinks.thumbnail}
+                                                    link={book.volumeInfo.previewLink}
                                                 />
+                                                  <SaveBtn
+               
+                 title={book.volumeInfo.title}
+                 authors={book.volumeInfo.authors }
+                 description={book.volumeInfo.description}
+                 image={book.volumeInfo.imageLinks.thumbnail}
+                 link={book.volumeInfo.previewLink}
+              
+              />
                                             </div>
                                         )
                                     }

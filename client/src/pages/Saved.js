@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
@@ -9,7 +10,17 @@ class Saved extends Component {
         savedBooks: []
     };
 
-
+    componentDidMount() {
+        this.getBooks();
+      }
+    
+      getBooks = () => {
+        axios.get("/api/books")
+          .then(res => {
+            this.setState({ savedBooks: res.data })
+          })
+          .catch((err => console.log(err)))
+      }
     render() {
         return (
             <Container fluid>
@@ -25,20 +36,20 @@ class Saved extends Component {
                 </Row>
                 <Row>
                     <Col size="md-12 sm-12">
-                        {(this.state.books && this.state.books.length > 0) ?
+                        {(this.state.savedBooks && this.state.savedBooks.length > 0) ?
                             <BookList>
-                                {this.state.books.map(book => {
+                                {this.state.savedBooks.map(book => {
                                     return (
                                         <div>
                                             <ListItem
-                                                key={book.id}
-                                                title={book.volumeInfo.title}
-                                                author={book.volumeInfo.author}
-                                                description={book.volumeInfo.description}
-                                                image={book.volumeInfo.thumbnail}
-                                                link={book.volumeInfo.Link}
+                                                key={book._id}
+                                                title={book.title}
+                                                authors={book.authors}
+                                                description={book.description}
+                                                image={book.thumbnail}
+                                                link={book.previewLink}
                                             />
-                                            <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                                            <DeleteBtn onClick={() => this.deleteBook(book.id)} />
                                         </div>
 
                                     )
