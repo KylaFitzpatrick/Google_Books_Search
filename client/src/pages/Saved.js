@@ -5,6 +5,8 @@ import { Col, Row, Container } from "../components/Grid";
 import Jumbotron from "../components/Jumbotron";
 import DeleteBtn from "../components/DeleteBtn";
 import { BookList, ListItem } from "../components/BookList"
+import API from "../utils/API";
+
 class Saved extends Component {
     state = {
         savedBooks: []
@@ -15,7 +17,7 @@ class Saved extends Component {
       }
     
       getBooks = () => {
-        axios.get("/api/books")
+        API.getBooks()
           .then(res => {
             this.setState({ savedBooks: res.data })
           })

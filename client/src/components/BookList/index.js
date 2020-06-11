@@ -30,7 +30,7 @@ export class ListItem extends React.Component{
               >
                 View
               </a></button>
-              {/* <SaveBtn /> */}
+              <SaveBtn />
 
              </Row>
              <Row>

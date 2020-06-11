@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import { BookList, ListItem } from "../components/BookList";
 import { Input, TextArea, FormBtn } from "../components/Form";
+import API from "../utils/API";
 
 
 class Search extends Component {
@@ -16,37 +17,14 @@ class Search extends Component {
         result: {}
     };
 
-    bookSearch = () => {
-
-        let API_URL = `https://www.googleapis.com/books/v1/volumes`;
-
-
-        // const fetchBooks = async () => {
-        // Ajax call to API using Axios
-        axios.get(`${API_URL}?q=${this.state.query}`)
-            // Books result
-            // console.log(result.data);
-            .then(res => {
-                //console.log(res);
-                this.displayRes(res.data);
-            })
+    bookSearch = (query) => {
+        query = `${this.state.query}`
+        API.search(query).then(res =>
+            this.setState({ result: res.data, books: res.data.items }))
             .catch(err => console.log(err));
-    };
-
-    displayRes = data => {
-        this.setState({ books: data.items });
     }
 
 
-
-    // Submit handler
-    // const onSubmitHandler = (e) => {
-    //     // Prevent browser refreshing after form submission
-    //     e.preventDefault();
-    //     // Call fetch books async function
-    //     fetchBooks();
-    // }
-    // }
 
     handleInputChange = event => {
         const { name, value } = event.target;
@@ -79,20 +57,20 @@ class Search extends Component {
                                                 <ListItem
                                                     key={book.id}
                                                     title={book.volumeInfo.title}
-                                                    authors={book.volumeInfo.authors }
+                                                    authors={book.volumeInfo.authors}
                                                     description={book.volumeInfo.description}
                                                     image={book.volumeInfo.imageLinks.thumbnail}
                                                     link={book.volumeInfo.previewLink}
                                                 />
-                                                  <SaveBtn
-               
-                 title={book.volumeInfo.title}
-                 authors={book.volumeInfo.authors }
-                 description={book.volumeInfo.description}
-                 image={book.volumeInfo.imageLinks.thumbnail}
-                 link={book.volumeInfo.previewLink}
-              
-              />
+                                                <SaveBtn
+
+                                                    title={book.volumeInfo.title}
+                                                    authors={book.volumeInfo.authors}
+                                                    description={book.volumeInfo.description}
+                                                    image={book.volumeInfo.imageLinks.thumbnail}
+                                                    link={book.volumeInfo.previewLink}
+
+                                                />
                                             </div>
                                         )
                                     }
